@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :members
   resources :merits
   resources :organizations 
   devise_for :users
