@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_10_143950) do
+ActiveRecord::Schema.define(version: 2021_01_10_144207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "member_merits", force: :cascade do |t|
+    t.integer "number"
+    t.bigint "merit_id"
+    t.bigint "member_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["member_id"], name: "index_member_merits_on_member_id"
+    t.index ["merit_id"], name: "index_member_merits_on_merit_id"
+  end
 
   create_table "members", force: :cascade do |t|
     t.string "first_name"
@@ -65,6 +75,8 @@ ActiveRecord::Schema.define(version: 2021_01_10_143950) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "member_merits", "members"
+  add_foreign_key "member_merits", "merits"
   add_foreign_key "members", "organizations"
   add_foreign_key "merits", "organizations"
 end
