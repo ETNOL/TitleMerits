@@ -1,3 +1,4 @@
+require 'net/http'
 class OrganizationsController < ApplicationController
   before_action :set_organization, only: [:show, :edit, :update, :destroy]
 
@@ -60,6 +61,41 @@ class OrganizationsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  # POST /organizations/import/1
+  def importBamboo
+    apiKey = params[:apiKey]
+    credentials = "#{apiKey}:x"
+    authorization = "Basic #{Base64::encode64(credentials)}".gsub("\n", "")
+    organization = Organization.find(params[:id])
+    bambooUrl = "https://api.bamboohr.com/api/gateway.php/#{organization.name}/v1/employees/directory"
+    url = URI(bambooUrl)
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    request = Net::HTTP::Get.new(url)
+    request["Accept"] = 'application/json'
+    request["Authorization"] = authorization
+    response = http.request(request)
+
+
+    employeeList = JSON.parse(response.read_body)
+    employeeList = employeeList[employeeList.keys[1]]
+    puts response.code
+    employeeList.each do |employee|
+        # if Member.where(email: employee["workEmail"])
+        #     next
+        # end
+       member = Member.new({
+           first_name: employee["firstName"],
+           last_name: employee["lastName"],
+           email: employee["workEmail"],
+           display_name: employee["displayName"]
+       })
+       member.organization = organization
+       puts member
+       member.save
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -69,6 +105,6 @@ class OrganizationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def organization_params
-      params.require(:organization).permit(:name)
+      params.require(:organization).permit(:name, :apiKey)
     end
 end

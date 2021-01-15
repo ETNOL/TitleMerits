@@ -5,5 +5,24 @@
   <%= @organization.name %>
 </p>
 
-<%= link_to 'Edit', edit_organization_path(@organization) %> |
+<h1>Members</h1>
+<% @organization.members.each do |member| %>
+    <div><%= member.display_name %> <%= link_to "Edit", edit_member_path(member) %></div>
+<% end %>
+
+<%= link_to 'Edit', edit_organization_path(@organization) %>
 <%= link_to 'Back', organizations_path %>
+
+<%= form_with( url: organizations_importBamboo_path, local: true) do |form| %>
+  
+  <div class="field">
+    <%= form.label 'apiKey' %>
+    <%= form.text_field 'apiKey' %>
+    <%= form.text_field 'id', value: @organization.id, hidden:true %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit "Import Employees" %>
+  </div>
+<% end %>
+
