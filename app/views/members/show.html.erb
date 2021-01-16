@@ -1,13 +1,7 @@
 <p id="notice"><%= notice %></p>
-
 <p>
-  <strong>First name:</strong>
-  <%= @member.first_name %>
-</p>
-
-<p>
-  <strong>Last name:</strong>
-  <%= @member.last_name %>
+  <strong>Display name:</strong>
+  <%= @member.display_name %>
 </p>
 
 <p>
@@ -19,15 +13,11 @@
   <strong>Photo url:</strong>
   <%= @member.photo_url %>
 </p>
-
 <p>
-  <strong>Display name:</strong>
-  <%= @member.display_name %>
-</p>
-
-<p>
-  <strong>Organization:</strong>
-  <%= @member.organization.name %>
+<strong>Merits</strong>
+<% @merits.each_pair do |name, count| %>
+    <div class="merit"><%=name%> <span class="merit-count"><%=count%></span></div>
+<% end %>
 </p>
 
 <%= link_to 'Edit', edit_member_path(@member) %> |

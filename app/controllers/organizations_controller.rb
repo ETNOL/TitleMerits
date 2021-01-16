@@ -82,9 +82,9 @@ class OrganizationsController < ApplicationController
     employeeList = employeeList[employeeList.keys[1]]
     puts response.code
     employeeList.each do |employee|
-        # if Member.where(email: employee["workEmail"])
-        #     next
-        # end
+        if Member.where(email: employee["workEmail"])
+            next
+         end
        member = Member.new({
            first_name: employee["firstName"],
            last_name: employee["lastName"],

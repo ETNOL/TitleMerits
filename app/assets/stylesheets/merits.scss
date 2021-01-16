@@ -1,3 +1,22 @@
 // Place all the styles related to the merits controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.merit {
+    background: teal;
+    color: white;
+    display: inline-block;
+    padding: 6px;
+    border-radius: 4px;
+    text-align: center;
+
+    .merit-count {
+        border-radius: 50%;
+        background: darken(teal, 10%);
+        display: inline-block;
+        font-weight: bold;
+        height: 1.2rem;
+        width: 1.2rem;
+    }
+}
+
+

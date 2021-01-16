@@ -10,6 +10,10 @@ class MembersController < ApplicationController
   # GET /members/1
   # GET /members/1.json
   def show
+    @merits = {}
+    @member.member_merits.each do |member_merit|
+      @merits[member_merit.merit.name].nil? ? @merits[member_merit.merit.name] = 1 : @merits[member_merit.merit.name] += 1
+    end
   end
 
   # GET /members/new
