@@ -4,12 +4,14 @@ class MeritsController < ApplicationController
   # GET /merits
   # GET /merits.json
   def index
-    @merits = Merit.all
+    @organization = current_user.organization
+    @merits = @organization.merits
   end
 
   # GET /merits/1
   # GET /merits/1.json
   def show
+    @organization = current_user.organization
   end
 
   # GET /merits/new
@@ -25,10 +27,12 @@ class MeritsController < ApplicationController
   # POST /merits.json
   def create
     @merit = Merit.new(merit_params)
+    @organization = current_user.organization
+    @merit.organization = @organization
 
     respond_to do |format|
       if @merit.save
-        format.html { redirect_to @merit, notice: 'Merit was successfully created.' }
+        format.html { redirect_to merits_path, notice: 'Merit was successfully created.' }
         format.json { render :show, status: :created, location: @merit }
       else
         format.html { render :new }

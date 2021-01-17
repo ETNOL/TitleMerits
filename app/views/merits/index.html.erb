@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Merits</h1>
+<h1><%=@organization.name%> Merits</h1>
 
 <table>
   <thead>
@@ -13,7 +13,7 @@
   <tbody>
     <% @merits.each do |merit| %>
       <tr>
-        <td><%= merit.name %></td>
+        <td><span class="merit"><%= merit.name %></span></td>
         <td><%= link_to 'Show', merit %></td>
         <td><%= link_to 'Edit', edit_merit_path(merit) %></td>
         <td><%= link_to 'Destroy', merit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
